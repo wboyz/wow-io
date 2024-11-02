@@ -10,7 +10,6 @@ import { RouterLink, RouterView } from 'vue-router';
         <RouterLink to="/about">About</RouterLink>
       </nav>
     </div>
-    <button class="btn btn-primary">Primary</button>
   </header>
 
   <RouterView />
