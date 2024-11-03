@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
+import { useBattlenetStore } from './stores/battlenet';
+
+const battlenetStore = useBattlenetStore();
+
+const token = await battlenetStore.token();
+
+console.log(token.access_token);
 </script>
 
 <template>
