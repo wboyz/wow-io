@@ -10,14 +10,16 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/mythic-profile',
+      name: 'mythic-profile',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/MythicProfileView.vue'),
     },
   ],
+  linkActiveClass: 'text-primary',
+  linkExactActiveClass: 'text-primary',
 });
 
 export default router;
