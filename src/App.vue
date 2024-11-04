@@ -1,14 +1,12 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
 import { useBattlenetStore } from './stores/battlenet';
-import { onMounted } from 'vue';
 
 const battlenetStore = useBattlenetStore();
 
 onMounted(async () => {
-  const token = await battlenetStore.token();
-
-  console.log(token.access_token);
+  await battlenetStore.getProfile();
 });
 </script>
 
