@@ -1,4 +1,5 @@
 import { Token } from '@/models/Token';
+import { BattleNetClient } from '@/services/BattleNetClient';
 import ky from 'ky';
 import type { App } from 'vue';
 
@@ -27,11 +28,12 @@ export default {
     }
 
     const http = ky.create({
-      prefixUrl: 'https://eu.api.blizzard.com',
       headers: {
         Authorization: `Bearer ${token.access_token}`,
       },
     });
-    app.provide('$http', http);
+
+    const battleNetClient = new BattleNetClient(http);
+    app.provide('battleNetClient', battleNetClient);
   },
 };

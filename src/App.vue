@@ -6,7 +6,7 @@ import { useBattlenetStore } from './stores/battlenet';
 const battlenetStore = useBattlenetStore();
 
 onMounted(async () => {
-  await battlenetStore.getProfile();
+  await battlenetStore.mythicKeystoneProfileSeason('ravencrest', 'eeteron');
 });
 </script>
 
