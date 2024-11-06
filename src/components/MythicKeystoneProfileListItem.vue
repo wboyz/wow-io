@@ -26,7 +26,7 @@ const duration = computed(() => formatMilliseconds(props.run.duration));
         class="w-full h-auto z-0 transition-all duration-300 group-hover:scale-110 absolute top-0 left-0 object-cover"
       />
       <div
-        class="absolute inset-0 bg-gradient-to-t from-black via-gray-900 to-black opacity-85"
+        class="absolute inset-0 bg-gradient-to-t from-black via-gray-900 to-black opacity-75"
       ></div>
     </div>
     <div class="relative flex flex-col gap-4 sm:gap-2">
