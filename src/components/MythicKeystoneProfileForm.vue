@@ -1,14 +1,27 @@
 <script setup lang="ts">
-import { useTemplateRef, onMounted } from 'vue';
+import { useTemplateRef, onMounted, ref } from 'vue';
 
-const inputRef = useTemplateRef('realm');
+const realm = ref('');
+const character = ref('');
+const realmElement = useTemplateRef('realmElement');
+const emit =
+  defineEmits<(e: 'submit', realm: string, character: string) => void>();
 
 onMounted(() => {
-  inputRef.value?.focus();
+  realmElement.value?.focus();
 });
+
+function submit() {
+  emit('submit', realm.value.toLowerCase(), character.value.toLowerCase());
+}
 </script>
 <template>
-  <form action="" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+  <form
+    action=""
+    class="grid grid-cols-1 sm:grid-cols-3 gap-4"
+    autocomplete="on"
+    @submit.prevent="submit"
+  >
     <label class="input input-bordered flex items-center gap-2" for="realm">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -28,10 +41,11 @@ onMounted(() => {
       <input
         type="text"
         class="h-12 w-full"
-        placeholder="Realm"
+        placeholder="realm"
         id="realm"
         name="realm"
-        ref="realm"
+        ref="realmElement"
+        v-model="realm"
       />
     </label>
 
@@ -49,12 +63,15 @@ onMounted(() => {
       <input
         type="text"
         class="h-12 w-full"
-        placeholder="Character"
+        placeholder="character"
         id="character"
         name="character"
+        v-model="character"
       />
     </label>
 
-    <button class="btn btn-outline btn-primary w-full">Get</button>
+    <button type="submit" class="btn btn-outline btn-primary w-full">
+      Get
+    </button>
   </form>
 </template>

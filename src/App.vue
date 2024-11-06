@@ -1,13 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import { RouterLink, RouterView } from 'vue-router';
-import { useBattlenetStore } from './stores/battlenet';
-
-const battlenetStore = useBattlenetStore();
-
-onMounted(async () => {
-  await battlenetStore.mythicKeystoneProfileSeason('ravencrest', 'eeteron');
-});
 </script>
 
 <template>
