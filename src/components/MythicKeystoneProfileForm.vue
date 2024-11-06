@@ -1,22 +1,18 @@
 <script setup lang="ts">
 import { useTemplateRef, onMounted, ref } from 'vue';
-import { useBattleNetStore } from '@/stores/battlenet';
 
 const realm = ref('');
 const character = ref('');
-
-const battleNetStore = useBattleNetStore();
 const realmElement = useTemplateRef('realmElement');
+const emit =
+  defineEmits<(e: 'submit', realm: string, character: string) => void>();
 
 onMounted(() => {
   realmElement.value?.focus();
 });
 
-async function search() {
-  await battleNetStore.mythicKeystoneProfileSeason(
-    realm.value,
-    character.value,
-  );
+function submit() {
+  emit('submit', realm.value.toLowerCase(), character.value.toLowerCase());
 }
 </script>
 <template>
@@ -24,7 +20,7 @@ async function search() {
     action=""
     class="grid grid-cols-1 sm:grid-cols-3 gap-4"
     autocomplete="on"
-    @submit.prevent="search"
+    @submit.prevent="submit"
   >
     <label class="input input-bordered flex items-center gap-2" for="realm">
       <svg
@@ -45,7 +41,7 @@ async function search() {
       <input
         type="text"
         class="h-12 w-full"
-        placeholder="Realm"
+        placeholder="realm"
         id="realm"
         name="realm"
         ref="realmElement"
@@ -67,7 +63,7 @@ async function search() {
       <input
         type="text"
         class="h-12 w-full"
-        placeholder="Character"
+        placeholder="character"
         id="character"
         name="character"
         v-model="character"
