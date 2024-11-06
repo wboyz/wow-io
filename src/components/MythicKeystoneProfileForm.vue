@@ -1,14 +1,31 @@
 <script setup lang="ts">
-import { useTemplateRef, onMounted } from 'vue';
+import { useTemplateRef, onMounted, ref } from 'vue';
+import { useBattleNetStore } from '@/stores/battlenet';
 
-const inputRef = useTemplateRef('realm');
+const realm = ref('');
+const character = ref('');
+
+const battleNetStore = useBattleNetStore();
+const realmElement = useTemplateRef('realmElement');
 
 onMounted(() => {
-  inputRef.value?.focus();
+  realmElement.value?.focus();
 });
+
+async function search() {
+  await battleNetStore.mythicKeystoneProfileSeason(
+    realm.value,
+    character.value,
+  );
+}
 </script>
 <template>
-  <form action="" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+  <form
+    action=""
+    class="grid grid-cols-1 sm:grid-cols-3 gap-4"
+    autocomplete="on"
+    @submit.prevent="search"
+  >
     <label class="input input-bordered flex items-center gap-2" for="realm">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +48,8 @@ onMounted(() => {
         placeholder="Realm"
         id="realm"
         name="realm"
-        ref="realm"
+        ref="realmElement"
+        v-model="realm"
       />
     </label>
 
@@ -52,9 +70,12 @@ onMounted(() => {
         placeholder="Character"
         id="character"
         name="character"
+        v-model="character"
       />
     </label>
 
-    <button class="btn btn-outline btn-primary w-full">Get</button>
+    <button type="submit" class="btn btn-outline btn-primary w-full">
+      Get
+    </button>
   </form>
 </template>
