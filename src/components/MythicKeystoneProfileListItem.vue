@@ -1,18 +1,9 @@
 <script setup lang="ts">
 import type { Run } from '@/types/MythicKeystoneProfileSeason/Run';
-import { computed } from 'vue';
+import MythicMapScoreBadge from './MythicMapScoreBadge.vue';
+import MythicMapScoreDuration from './MythicMapScoreDuration.vue';
 
-const props = defineProps<{
-  run: Run;
-}>();
-
-function formatMilliseconds(ms: number): string {
-  const minutes = Math.floor(ms / 60000);
-  const seconds = ((ms % 60000) / 1000).toFixed(3);
-  return `${minutes}:${seconds.padStart(6, '0')}`;
-}
-
-const duration = computed(() => formatMilliseconds(props.run.duration));
+defineProps<{ run: Run }>();
 </script>
 
 <template>
@@ -27,12 +18,15 @@ const duration = computed(() => formatMilliseconds(props.run.duration));
       />
     </figure>
     <div class="card-body">
-      <h2 class="card-title">
+      <h2 class="card-title justify-between font-bold">
         {{ run.dungeon.name }}
-        <div class="badge badge-secondary">{{ run.keystone_level }}</div>
+        <div class="badge badge-warning text-lg p-3">
+          {{ run.keystone_level }}
+        </div>
       </h2>
-      <div class="card-actions justify-end">
-        <div class="badge badge-outline">{{ duration }}</div>
+      <div class="card-actions justify-between mt-4">
+        <MythicMapScoreDuration :duration="run.duration" />
+        <MythicMapScoreBadge :rating="run.map_rating" />
       </div>
     </div>
   </div>
