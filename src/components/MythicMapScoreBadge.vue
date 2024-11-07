@@ -16,6 +16,7 @@ const ratingColor = computed(
 <template>
   <div
     class="badge badge-neutral p-4 text-lg font-bold gap-2"
+    :class="{ 'text-slate-900': rating > 0, 'text-slate-100': rating === 0 }"
     :style="ratingColor"
   >
     <svg
