@@ -18,8 +18,8 @@ defineProps<{ run: Run }>();
       />
     </figure>
     <div class="card-body">
-      <h2 class="card-title justify-between font-bold text-shadow">
-        {{ run.dungeon.name }}
+      <h2 class="card-title justify-between font-bold">
+        <span class="text-shadow">{{ run.dungeon.name }}</span>
         <div class="badge badge-warning text-lg p-3">
           {{ run.keystone_level }}
         </div>
