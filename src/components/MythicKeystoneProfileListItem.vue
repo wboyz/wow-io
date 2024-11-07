@@ -18,7 +18,7 @@ defineProps<{ run: Run }>();
       />
     </figure>
     <div class="card-body">
-      <h2 class="card-title justify-between font-bold">
+      <h2 class="card-title justify-between font-bold text-shadow">
         {{ run.dungeon.name }}
         <div class="badge badge-warning text-lg p-3">
           {{ run.keystone_level }}
@@ -31,3 +31,9 @@ defineProps<{ run: Run }>();
     </div>
   </div>
 </template>
+
+<style scoped>
+.text-shadow {
+  text-shadow: 1px 2px 2px black;
+}
+</style>

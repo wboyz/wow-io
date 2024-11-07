@@ -15,7 +15,7 @@ const duration = computed(() => formatMilliseconds(props.duration));
 </script>
 
 <template>
-  <div class="badge badge-accent p-4 gap-2 text-lg font-bold">
+  <div class="badge badge-accent p-4 gap-2 text-lg font-bold text-slate-900">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
