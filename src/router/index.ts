@@ -17,6 +17,11 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/MythicProfileView.vue'),
     },
+    {
+      path: '/fetch-anything',
+      name: 'fetch-anything',
+      component: () => import('../views/FetchAnythingView.vue'),
+    },
   ],
   linkActiveClass: 'text-primary',
   linkExactActiveClass: 'text-primary',

@@ -7,9 +7,7 @@ export default {
   install: async (app: App) => {
     let token: Token | null;
     const tokenString = localStorage.getItem('token');
-    if (tokenString) {
-      token = Token.fromJson(tokenString);
-    } else {
+    if (!tokenString || Token.fromJson(tokenString).expired()) {
       const clientId = import.meta.env.VITE_BATTLENET_CLIENT_ID as string;
       const clientSecret = import.meta.env
         .VITE_BATTLENET_CLIENT_SECRET as string;
@@ -25,6 +23,8 @@ export default {
         .json<Token>();
       token = Token.fromTokenResponse(tokenResponse);
       localStorage.setItem('token', token.toJson());
+    } else {
+      token = Token.fromJson(tokenString);
     }
 
     const http = ky.create({
