@@ -34,6 +34,12 @@ defineProps<{ run: Run }>();
 
 <style scoped>
 .text-shadow {
-  text-shadow: 1px 2px 2px black;
+  text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  .text-shadow {
+    text-shadow: 1px 2px 2px black;
+  }
 }
 </style>
