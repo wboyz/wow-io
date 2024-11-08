@@ -6,26 +6,28 @@ const props = defineProps<{
   rating: Rating;
 }>();
 
-const rating = computed(() => Math.round(props.rating.rating));
+const roundedRating = computed(() => Math.round(props.rating.rating));
 
 const ratingColor = computed(
   () =>
-    `border-color: rgba(${props.rating.color.r},${props.rating.color.g},${props.rating.color.b},${props.rating.color.a}); background-color: rgba(${props.rating.color.r},${props.rating.color.g},${props.rating.color.b},${props.rating.color.a})`,
+    `rgba(${props.rating.color.r},${props.rating.color.g},${props.rating.color.b},${props.rating.color.a})`,
 );
+const borderColor = computed(() => `border-color: ${ratingColor.value}; `);
 </script>
 <template>
   <div
-    class="badge badge-neutral p-4 text-lg font-bold gap-2"
-    :class="{ 'text-slate-900': rating > 0, 'text-slate-100': rating === 0 }"
-    :style="ratingColor"
+    v-if="rating.rating > 0"
+    class="badge badge-outline p-4 text-lg font-bold gap-2"
+    :style="borderColor"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      fill="none"
+      :fill="`rgba(${props.rating.color.r},${props.rating.color.g},${props.rating.color.b},${props.rating.color.a})`"
       viewBox="0 0 24 24"
       stroke-width="1.5"
-      stroke="currentColor"
+      :stroke="ratingColor"
       class="inline-block h-5 w-5 stroke-current"
+      :style="`color: ${ratingColor}`"
     >
       <path
         stroke-linecap="round"
@@ -34,6 +36,6 @@ const ratingColor = computed(
       />
     </svg>
 
-    {{ rating }}
+    {{ roundedRating }}
   </div>
 </template>
