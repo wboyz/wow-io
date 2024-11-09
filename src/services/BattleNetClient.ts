@@ -18,8 +18,10 @@ export class BattleNetClient {
       .json<MythicKeystoneProfileSeason>();
   }
 
-  fetchAnything(url: string): Promise<object> {
-    const queryString = this.buildQueryString();
+  fetchAnything(url: string, namespace: string): Promise<object> {
+    const queryString = new URLSearchParams();
+    queryString.append('namespace', namespace);
+    queryString.append('locale', BattleNetClient.locale);
     return this.client
       .get(`${BattleNetClient.baseUrl}/${url}?${queryString}`)
       .json();
