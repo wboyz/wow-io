@@ -3,13 +3,14 @@ import type { BattleNetClient } from '@/services/BattleNetClient';
 import { inject, ref } from 'vue';
 
 const http: BattleNetClient = inject('battleNetClient')!;
-const apiPath = ref('');
-const namespace = ref('');
+const url = ref('');
+const namespace = ref('profile-eu');
 
 const emit = defineEmits<(e: 'fetched', response: string) => void>();
 
 const submit = async () => {
-  const response = await http.fetchAnything(apiPath.value, namespace.value);
+  const trimmedUrl = url.value.replace(/^\/|\/$/g, '');
+  const response = await http.fetchAnything(trimmedUrl, namespace.value);
   emit('fetched', JSON.stringify(response, null, 2));
 };
 </script>
@@ -26,7 +27,7 @@ const submit = async () => {
         type="text"
         class="grow"
         placeholder="/example/path/to/api"
-        v-model="apiPath"
+        v-model="url"
       />
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -44,8 +45,7 @@ const submit = async () => {
       </svg>
     </label>
     <select class="select select-bordered w-full max-w-xs" v-model="namespace">
-      <option disabled selected>Namespace</option>
-      <option value="profile-eu">profile-eu</option>
+      <option value="profile-eu" selected>profile-eu</option>
       <option value="dynamic-eu">dynamic-eu</option>
       <option value="static-eu">static-eu</option>
     </select>
