@@ -31,6 +31,9 @@ import { RouterLink, RouterView } from 'vue-router';
               <li>
                 <RouterLink to="/mythic-profile">Mythic Profile</RouterLink>
               </li>
+              <li>
+                <RouterLink to="/fetch-anything">Fetch Anything</RouterLink>
+              </li>
             </ul>
           </div>
           <a class="btn btn-ghost text-xl">WoW IO</a>
@@ -40,6 +43,9 @@ import { RouterLink, RouterView } from 'vue-router';
             <li><RouterLink to="/">Home</RouterLink></li>
             <li>
               <RouterLink to="/mythic-profile">Mythic Profile</RouterLink>
+            </li>
+            <li>
+              <RouterLink to="/fetch-anything">Fetch Anything</RouterLink>
             </li>
           </ul>
         </div>

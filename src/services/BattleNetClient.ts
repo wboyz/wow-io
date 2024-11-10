@@ -18,6 +18,15 @@ export class BattleNetClient {
       .json<MythicKeystoneProfileSeason>();
   }
 
+  fetchAnything(url: string, namespace: string): Promise<object> {
+    const queryString = new URLSearchParams();
+    queryString.append('namespace', namespace);
+    queryString.append('locale', BattleNetClient.locale);
+    return this.client
+      .get(`${BattleNetClient.baseUrl}/${url}?${queryString}`)
+      .json();
+  }
+
   private buildUrl(realm: string, character: string) {
     return `${BattleNetClient.baseUrl}/profile/wow/character/${realm}/${character}/mythic-keystone-profile/season/${BattleNetClient.season}`;
   }
