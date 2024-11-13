@@ -1,6 +1,5 @@
 import type { MythicKeystoneProfileSeason } from '@/types/MythicKeystoneProfileSeason/MythicKeystoneProfileSeason';
 import type { KyInstance } from 'ky';
-import type { Type } from 'typescript';
 
 export class BattleNetClient {
   private static readonly season: number = 13;
