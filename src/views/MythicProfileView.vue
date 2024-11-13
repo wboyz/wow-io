@@ -6,6 +6,7 @@ import MythicProfileList from '@/components/MythicKeystoneProfileList.vue';
 import { useBattleNetStore } from '@/stores/battlenet';
 import type { Run } from '@/types/MythicKeystoneProfileSeason/Run';
 import { storeToRefs } from 'pinia';
+import ProfileCard from '@/components/ProfileCard.vue';
 
 const battleNetStore = useBattleNetStore();
 const { loading } = storeToRefs(battleNetStore);
@@ -24,6 +25,8 @@ async function search(realm: string, character: string) {
 <template>
   <main class="lg:container mx-auto px-6 mt-6 flex flex-1 flex-col w-full">
     <MythicProfileForm @submit="search" />
+
+    <ProfileCard v-if="!loading" :realm="realm" :character="character" />
 
     <LoadingSpinner v-if="loading" />
 

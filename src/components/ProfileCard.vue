@@ -1,6 +1,11 @@
 <script lang="ts" setup>
+import classColors from '@/data/classColors';
+import factionColors from '@/data/factionColors';
 import type { BattleNetClient } from '@/services/BattleNetClient';
-import { computed, inject, onMounted } from 'vue';
+import { type ProfileCard } from '@/types/ProfileCard';
+import type { Character } from '@/types/ProfileWowCharacter/Character';
+import type { CharacterMedia } from '@/types/ProfileWowCharacterMedia/CharacterMedia';
+import { computed, inject, onMounted, ref } from 'vue';
 
 const http: BattleNetClient = inject('battleNetClient')!;
 
@@ -9,38 +14,52 @@ const props = defineProps<{
   character: string;
 }>();
 
+const profile = ref<ProfileCard>({
+  name: '',
+  guild: '',
+  level: 0,
+  spec: '',
+  race: '',
+  classColor: '',
+  factionColor: '',
+  avatar: '',
+});
+
 onMounted(async () => {
   console.log('ProfileCard mounted');
-  const p = await http.fetchAnything(
+  const p = await http.fetchAnything<Character>(
     `profile/wow/character/${props.realm}/${props.character}`,
     'profile-eu',
   );
 
-  console.log(p);
-});
+  profile.value.name = p.name;
+  profile.value.guild = p.guild?.name;
+  profile.value.level = p.level;
+  profile.value.spec = `${p.active_spec.name} ${p.character_class.name}`;
+  profile.value.race = p.race.name;
+  profile.value.classColor =
+    classColors.find(x => x.class === p.character_class.name)?.color ||
+    '#000000';
+  profile.value.factionColor =
+    p.faction.name === 'Alliance'
+      ? factionColors.alliance
+      : factionColors.horde;
 
-const profile = {
-  name: 'Eeteron',
-  guild: 'Zengo Total Deplete',
-  level: 80,
-  spec: 'Vengeance Demon Hunter',
-  classColor: '#A330C9',
-  factionColor: '#1A8CFF',
-  avatar:
-    'https://render.worldofwarcraft.com/eu/character/ravencrest/56/106737976-avatar.jpg',
-  race: 'Night Elf',
-};
+  const media = await http.fetchLink<CharacterMedia>(p.media.href);
+  profile.value.avatar = media.assets[0].value;
+  console.log(w);
+});
 
 const boxShadow = computed(() => {
-  return { boxShadow: `0 0 8px 2px ${profile.factionColor}` };
+  return { boxShadow: `0 0 8px 2px ${profile.value.factionColor}` };
 });
 
-const classTextColor = computed(() => {
-  return `text-[${profile.classColor}]`;
+const styleTextColor = computed(() => {
+  return { color: profile.value.classColor };
 });
 
-const factionTextColor = computed(() => {
-  return `text-[${profile.factionColor}]`;
+const styleFactionColor = computed(() => {
+  return { color: profile.value.factionColor };
 });
 </script>
 <template>
@@ -49,13 +68,13 @@ const factionTextColor = computed(() => {
       <img :src="profile.avatar" :alt="profile.name" :style="boxShadow" />
     </div>
     <div class="flex flex-col ml-3 justify-between">
-      <h1 class="text-xl font-semibold" :class="factionTextColor">
+      <h1 class="text-xl font-semibold" :style="styleTextColor">
         {{ profile.name }}
       </h1>
-      <div><{{ profile.guild }}></div>
+      <div v-show="profile.guild"><{{ profile.guild }}></div>
       <div>
-        <span :class="factionTextColor">{{ profile.race }}&nbsp;</span>
-        <span :class="classTextColor">{{ profile.spec }}</span>
+        <span :style="styleFactionColor">{{ profile.race }}&nbsp;</span>
+        <span :class="styleTextColor">{{ profile.spec }}</span>
       </div>
     </div>
   </div>
