@@ -41,7 +41,7 @@ const hideOnBlur = () => {
     </svg>
 
 
-    <input type="text" class="h-12 w-full" v-model="search" placeholder="realm" id="realm" @focus="searchStarted = true"
+    <input type="text" class="h-12 w-full" v-model="search" placeholder="Realm" id="realm" @focus="searchStarted = true"
       @blur="hideOnBlur" autocomplete="off" />
     <ul class="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg overflow-y-auto top-12 left-0"
       :style="height" v-show="searchStarted">
