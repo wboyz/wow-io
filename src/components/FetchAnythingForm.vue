@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { BattleNetClient } from '@/services/BattleNetClient';
 import { inject, ref } from 'vue';
+import ProfileCard from './ProfileCard.vue';
 
 const http: BattleNetClient = inject('battleNetClient')!;
 const url = ref('');
@@ -16,6 +17,7 @@ const submit = async () => {
 </script>
 
 <template>
+  <ProfileCard realm="ravencrest" character="eeteron" />
   <form
     action=""
     class="grid grid-cols-1 sm:grid-cols-3 gap-4"

@@ -1,5 +1,6 @@
 import type { MythicKeystoneProfileSeason } from '@/types/MythicKeystoneProfileSeason/MythicKeystoneProfileSeason';
 import type { KyInstance } from 'ky';
+import type { Type } from 'typescript';
 
 export class BattleNetClient {
   private static readonly season: number = 13;
@@ -18,13 +19,17 @@ export class BattleNetClient {
       .json<MythicKeystoneProfileSeason>();
   }
 
-  fetchAnything(url: string, namespace: string): Promise<object> {
+  fetchAnything<T>(url: string, namespace: string): Promise<T> {
     const queryString = new URLSearchParams();
     queryString.append('namespace', namespace);
     queryString.append('locale', BattleNetClient.locale);
     return this.client
       .get(`${BattleNetClient.baseUrl}/${url}?${queryString}`)
-      .json();
+      .json<T>();
+  }
+
+  fetchLink<T>(url: string): Promise<T> {
+    return this.client.get(url).json<T>();
   }
 
   private buildUrl(realm: string, character: string) {
