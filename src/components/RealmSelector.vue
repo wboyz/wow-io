@@ -69,6 +69,5 @@ const height = computed(() => {
         {{ option.name }}
       </li>
     </ul>
-    {{ search }}
   </label>
 </template>
