@@ -5,7 +5,7 @@ import type { BattleNetClient } from '@/services/BattleNetClient';
 import { type ProfileCard } from '@/types/ProfileCard';
 import type { Character } from '@/types/ProfileWowCharacter/Character';
 import type { CharacterMedia } from '@/types/ProfileWowCharacterMedia/CharacterMedia';
-import { computed, inject, onMounted, ref } from 'vue';
+import { computed, inject, onMounted, ref, watch } from 'vue';
 
 const http: BattleNetClient = inject('battleNetClient')!;
 
@@ -26,7 +26,14 @@ const profile = ref<ProfileCard>({
 });
 
 onMounted(async () => {
-  console.log('ProfileCard mounted');
+  await setupCharacter();
+});
+
+watch([() => props.realm, () => props.character], async () => {
+  await setupCharacter();
+});
+
+const setupCharacter = async () => {
   const p = await http.fetchAnything<Character>(
     `profile/wow/character/${props.realm}/${props.character}`,
     'profile-eu',
@@ -47,8 +54,7 @@ onMounted(async () => {
 
   const media = await http.fetchLink<CharacterMedia>(p.media.href);
   profile.value.avatar = media.assets[0].value;
-  console.log(w);
-});
+};
 
 const boxShadow = computed(() => {
   return { boxShadow: `0 0 8px 2px ${profile.value.factionColor}` };
@@ -63,7 +69,7 @@ const styleFactionColor = computed(() => {
 });
 </script>
 <template>
-  <div class="flex flex-row w-auto max-w-[380px]">
+  <div class="flex flex-row w-[300px]" :style="boxShadow">
     <div>
       <img :src="profile.avatar" :alt="profile.name" :style="boxShadow" />
     </div>
