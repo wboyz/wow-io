@@ -14,7 +14,8 @@ const bestRuns = computed(() =>
         if (acc[run.dungeon.id] === undefined) {
           acc[run.dungeon.id] = run;
         } else if (
-          acc[run.dungeon.id].map_rating.rating < run.map_rating.rating
+          acc[run.dungeon.id].map_rating.rating <= run.map_rating.rating &&
+          acc[run.dungeon.id].keystone_level < run.keystone_level
         ) {
           acc[run.dungeon.id] = run;
         }
