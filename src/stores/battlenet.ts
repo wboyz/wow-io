@@ -12,17 +12,11 @@ export const useBattleNetStore = defineStore('battlenet', () => {
     error.value = null;
 
     try {
-      try {
       const response = await battleNetClient.fetchMythicKeystoneProfileSeason(
-          realm,
-          character,
-        );
-        return response;
-    } catch {
-      return { best_runs: [] };
-    } finally {
-      loading.value = false;
-      }
+        realm,
+        character,
+      );
+      return response;
     } catch (exception) {
       loading.value = false;
 
@@ -34,6 +28,10 @@ export const useBattleNetStore = defineStore('battlenet', () => {
         error.value = 'Unknown error occurred';
         console.error(exception);
       }
+
+      return { best_runs: [] };
+    } finally {
+      loading.value = false;
     }
   }
 
