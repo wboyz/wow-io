@@ -6,16 +6,19 @@ import MythicProfileList from '@/components/MythicKeystoneProfileList.vue';
 import { useBattleNetStore } from '@/stores/battlenet';
 import type { Run } from '@/types/MythicKeystoneProfileSeason/Run';
 import { storeToRefs } from 'pinia';
+import ProfileCard from '@/components/ProfileCard.vue';
 
 const battleNetStore = useBattleNetStore();
 const { loading } = storeToRefs(battleNetStore);
 const runs = ref<Run[]>([]);
 
-async function search(realm: string, character: string) {
-  const response = await battleNetStore.mythicKeystoneProfileSeason(
-    realm,
-    character,
-  );
+const realm = ref('');
+const character = ref('');
+
+async function search(r: string, c: string) {
+  realm.value = r;
+  character.value = c;
+  const response = await battleNetStore.mythicKeystoneProfileSeason(r, c);
 
   runs.value = response.best_runs;
 }
@@ -23,7 +26,15 @@ async function search(realm: string, character: string) {
 
 <template>
   <main class="lg:container mx-auto px-6 mt-6 flex flex-1 flex-col w-full">
-    <MythicProfileForm @submit="search" />
+    <div class="flex flex-row-reverse justify-between">
+      <MythicProfileForm @submit="search" />
+
+      <ProfileCard
+        v-if="realm && character"
+        :realm="realm"
+        :character="character"
+      />
+    </div>
 
     <LoadingSpinner v-if="loading" />
 

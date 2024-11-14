@@ -8,12 +8,17 @@ export const useBattleNetStore = defineStore('battlenet', () => {
 
   async function mythicKeystoneProfileSeason(realm: string, character: string) {
     loading.value = true;
-    const response = await battleNetClient.fetchMythicKeystoneProfileSeason(
-      realm,
-      character,
-    );
-    loading.value = false;
-    return response;
+    try {
+      const response = await battleNetClient.fetchMythicKeystoneProfileSeason(
+        realm,
+        character,
+      );
+      return response;
+    } catch {
+      return { best_runs: [] };
+    } finally {
+      loading.value = false;
+    }
   }
 
   return { mythicKeystoneProfileSeason, loading };
