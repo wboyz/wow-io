@@ -7,9 +7,10 @@ import { useBattleNetStore } from '@/stores/battlenet';
 import type { Run } from '@/types/MythicKeystoneProfileSeason/Run';
 import { storeToRefs } from 'pinia';
 import ProfileCard from '@/components/ProfileCard.vue';
+import MythicKeystoneAlert from '@/components/MythicKeystoneAlert.vue';
 
 const battleNetStore = useBattleNetStore();
-const { loading } = storeToRefs(battleNetStore);
+const { loading, error } = storeToRefs(battleNetStore);
 const runs = ref<Run[]>([]);
 
 const realm = ref('');
@@ -20,7 +21,7 @@ async function search(r: string, c: string) {
   character.value = c;
   const response = await battleNetStore.mythicKeystoneProfileSeason(r, c);
 
-  runs.value = response.best_runs;
+  runs.value = response?.best_runs ?? [];
 }
 </script>
 
@@ -38,6 +39,8 @@ async function search(r: string, c: string) {
 
     <LoadingSpinner v-if="loading" />
 
-    <MythicProfileList :runs="runs" v-if="!loading" />
+    <MythicKeystoneAlert class="mt-6" :error="error" v-if="!loading" />
+
+    <MythicProfileList :runs="runs" v-if="!loading && !error" />
   </main>
 </template>
