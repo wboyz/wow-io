@@ -10,7 +10,6 @@ const search = ref('');
 const searchStarted = ref(false);
 
 const selectOption = (option: Realm) => {
-  searchStarted.value = false;
   search.value = option.name;
   emit('selected', option.slug);
 };
@@ -24,6 +23,12 @@ const filteredRealms = computed(() => {
 const height = computed(() => {
   return `max-height: ${Math.min(filteredRealms.value.length, 4) * 4}rem`;
 });
+
+const hideOnBlur = () => {
+  setTimeout(() => {
+    searchStarted.value = false;
+  }, 100);
+};
 </script>
 
 <template>
@@ -53,7 +58,9 @@ const height = computed(() => {
       placeholder="Realm"
       id="realm"
       @input="searchStarted = true"
+      @click="searchStarted = true"
       autocomplete="off"
+      @blur="hideOnBlur"
     />
     <ul
       class="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg overflow-y-auto top-12 left-0"
