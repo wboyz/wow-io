@@ -74,7 +74,7 @@ const styleFactionColor = computed(() => {
       <h1 class="text-xl font-semibold" :style="styleTextColor">
         {{ profile.name }}
       </h1>
-      <div v-show="profile.guild"><{{ profile.guild }}></div>
+      <div v-show="profile.guild">&lt;{{ profile.guild }}&gt;</div>
       <div>
         <span :style="styleFactionColor">{{ profile.race }}&nbsp;</span>
         <span :class="styleTextColor">{{ profile.spec }}</span>
