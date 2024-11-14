@@ -12,12 +12,17 @@ export const useBattleNetStore = defineStore('battlenet', () => {
     error.value = null;
 
     try {
+      try {
       const response = await battleNetClient.fetchMythicKeystoneProfileSeason(
-        realm,
-        character,
-      );
+          realm,
+          character,
+        );
+        return response;
+    } catch {
+      return { best_runs: [] };
+    } finally {
       loading.value = false;
-      return response;
+      }
     } catch (exception) {
       loading.value = false;
 
