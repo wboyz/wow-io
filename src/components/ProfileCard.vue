@@ -14,16 +14,7 @@ const props = defineProps<{
   character: string;
 }>();
 
-const profile = ref<ProfileCard>({
-  name: '',
-  guild: '',
-  level: 0,
-  spec: '',
-  race: '',
-  classColor: '',
-  factionColor: '',
-  avatar: '',
-});
+const profile = ref<ProfileCard | null>();
 
 onMounted(async () => {
   await setupCharacter();
@@ -34,42 +25,48 @@ watch([() => props.realm, () => props.character], async () => {
 });
 
 const setupCharacter = async () => {
-  const p = await http.fetchAnything<Character>(
-    `profile/wow/character/${props.realm}/${props.character}`,
-    'profile-eu',
-  );
+  try {
+    const p = await http.fetchAnything<Character>(
+      `profile/wow/character/${props.realm}/${props.character}`,
+      'profile-eu',
+    );
 
-  profile.value.name = p.name;
-  profile.value.guild = p.guild?.name;
-  profile.value.level = p.level;
-  profile.value.spec = `${p.active_spec.name} ${p.character_class.name}`;
-  profile.value.race = p.race.name;
-  profile.value.classColor =
-    classColors.find(x => x.class === p.character_class.name)?.color ||
-    '#000000';
-  profile.value.factionColor =
-    p.faction.name === 'Alliance'
-      ? factionColors.alliance
-      : factionColors.horde;
+    profile.value = {} as ProfileCard;
 
-  const media = await http.fetchLink<CharacterMedia>(p.media.href);
-  profile.value.avatar = media.assets[0].value;
+    profile.value.name = p.name;
+    profile.value.guild = p.guild?.name;
+    profile.value.level = p.level;
+    profile.value.spec = `${p.active_spec.name} ${p.character_class.name}`;
+    profile.value.race = p.race.name;
+    profile.value.classColor =
+      classColors.find(x => x.class === p.character_class.name)?.color ||
+      '#000000';
+    profile.value.factionColor =
+      p.faction.name === 'Alliance'
+        ? factionColors.alliance
+        : factionColors.horde;
+
+    const media = await http.fetchLink<CharacterMedia>(p.media.href);
+    profile.value.avatar = media.assets[0].value;
+  } catch {
+    profile.value = null;
+  }
 };
 
 const boxShadow = computed(() => {
-  return { boxShadow: `0 0 8px 2px ${profile.value.factionColor}` };
+  return { boxShadow: `0 0 8px 2px ${profile.value!.factionColor}` };
 });
 
 const styleTextColor = computed(() => {
-  return { color: profile.value.classColor };
+  return { color: profile.value!.classColor };
 });
 
 const styleFactionColor = computed(() => {
-  return { color: profile.value.factionColor };
+  return { color: profile.value!.factionColor };
 });
 </script>
 <template>
-  <div class="flex flex-row w-[300px]" :style="boxShadow">
+  <div class="flex flex-row w-[300px]" :style="boxShadow" v-if="profile">
     <div>
       <img :src="profile.avatar" :alt="profile.name" :style="boxShadow" />
     </div>
