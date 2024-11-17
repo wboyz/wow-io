@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import classColors from '@/data/classColors';
 import factionColors from '@/data/factionColors';
-import type { BattleNetClient } from '@/services/BattleNetClient';
 import { type ProfileCard } from '@/types/ProfileCard';
 import type { Character } from '@/types/ProfileWowCharacter/Character';
 import type { CharacterMedia } from '@/types/ProfileWowCharacterMedia/CharacterMedia';
-import { computed, inject, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
-const http: BattleNetClient = inject('battleNetClient')!;
+const { $battleNetClient } = useNuxtApp();
 
 const props = defineProps<{
   realm: string;
@@ -26,7 +25,7 @@ watch([() => props.realm, () => props.character], async () => {
 
 const setupCharacter = async () => {
   try {
-    const p = await http.fetchAnything<Character>(
+    const p = await $battleNetClient.fetchAnything<Character>(
       `profile/wow/character/${props.realm}/${props.character}`,
       'profile-eu',
     );
@@ -46,7 +45,9 @@ const setupCharacter = async () => {
         ? factionColors.alliance
         : factionColors.horde;
 
-    const media = await http.fetchLink<CharacterMedia>(p.media.href);
+    const media = await $battleNetClient.fetchLink<CharacterMedia>(
+      p.media.href,
+    );
     profile.value.avatar = media.assets[0].value;
   } catch {
     profile.value = null;
