@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { useBattleNetStore } from '@/stores/battlenet';
-import { storeToRefs } from 'pinia';
 import type { Run } from '@/types/MythicKeystoneProfileSeason/Run';
 
 const battleNetStore = useBattleNetStore();
 const { loading, error } = storeToRefs(battleNetStore);
-const runs = ref<Run[]>([]);
 
+const runs = ref<Run[]>([]);
 const realm = ref('');
 const character = ref('');
 
