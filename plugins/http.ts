@@ -1,39 +1,42 @@
 import { Token } from '@/models/Token';
 import { BattleNetClient } from '@/services/BattleNetClient';
 import ky from 'ky';
-import type { App } from 'vue';
 
-export default {
-  install: async (app: App) => {
-    let token: Token | null;
-    const tokenString = localStorage.getItem('token');
-    if (!tokenString || Token.fromJson(tokenString).expired()) {
-      const clientId = import.meta.env.VITE_BATTLENET_CLIENT_ID as string;
-      const clientSecret = import.meta.env
-        .VITE_BATTLENET_CLIENT_SECRET as string;
-      const body = new FormData();
-      body.append('grant_type', 'client_credentials');
-      const tokenResponse = await ky
-        .post('https://oauth.battle.net/token', {
-          headers: {
-            Authorization: 'Basic ' + btoa(`${clientId}:${clientSecret}`),
-          },
-          body,
-        })
-        .json<Token>();
-      token = Token.fromTokenResponse(tokenResponse);
-      localStorage.setItem('token', token.toJson());
-    } else {
-      token = Token.fromJson(tokenString);
-    }
+export default defineNuxtPlugin(async () => {
+  const config = useRuntimeConfig();
+  let token: Token | null;
+  const tokenString = useCookie<Token>('token', { sameSite: true });
 
-    const http = ky.create({
-      headers: {
-        Authorization: `Bearer ${token.access_token}`,
-      },
-    });
+  if (!tokenString.value || Token.fromObject(tokenString.value).expired()) {
+    const clientId = config.battleNetClientId;
+    const clientSecret = config.battleNetClientSecret;
+    const body = new FormData();
+    body.append('grant_type', 'client_credentials');
+    const tokenResponse = await ky
+      .post('https://oauth.battle.net/token', {
+        headers: {
+          Authorization: 'Basic ' + btoa(`${clientId}:${clientSecret}`),
+        },
+        body,
+      })
+      .json<Token>();
+    token = Token.fromTokenResponse(tokenResponse);
+    tokenString.value = token;
+  } else {
+    token = Token.fromObject(tokenString.value);
+  }
 
-    const battleNetClient = new BattleNetClient(http);
-    app.provide('battleNetClient', battleNetClient);
-  },
-};
+  const http = ky.create({
+    headers: {
+      Authorization: `Bearer ${token.access_token}`,
+    },
+  });
+
+  const battleNetClient = new BattleNetClient(http);
+
+  return {
+    provide: {
+      battleNetClient: battleNetClient,
+    },
+  };
+});
