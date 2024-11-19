@@ -12,6 +12,8 @@ export default defineNuxtConfig({
     },
   },
   runtimeConfig: {
+    adminUser: process.env.ADMIN_USER,
+    adminPassword: process.env.ADMIN_PASSWORD,
     battleNetClientId: process.env.BATTLE_NET_CLIENT_ID,
     battleNetClientSecret: process.env.BATTLE_NET_CLIENT_SECRET,
   },
