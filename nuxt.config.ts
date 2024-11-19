@@ -7,9 +7,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
   tailwindcss: {
-    config: {
-      plugins: [daisyui],
-    },
+    configPath: './tailwind.config.js',
+    quiet: true,
   },
   runtimeConfig: {
     battleNetClientId: process.env.BATTLE_NET_CLIENT_ID,
