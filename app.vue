@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
-</script>
-
 <template>
   <div class="h-screen flex flex-col">
     <header>
@@ -27,12 +23,12 @@ import { RouterLink, RouterView } from 'vue-router';
             <ul
               class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-              <li><RouterLink to="/">Home</RouterLink></li>
+              <li><NuxtLink to="/">Home</NuxtLink></li>
               <li>
-                <RouterLink to="/mythic-profile">Mythic Profile</RouterLink>
+                <NuxtLink to="/mythic-profile">Mythic Profile</NuxtLink>
               </li>
               <li>
-                <RouterLink to="/fetch-anything">Fetch Anything</RouterLink>
+                <NuxtLink to="/fetch-anything">Fetch Anything</NuxtLink>
               </li>
             </ul>
           </div>
@@ -40,12 +36,12 @@ import { RouterLink, RouterView } from 'vue-router';
         </div>
         <div class="navbar-center hidden lg:flex">
           <ul class="menu menu-horizontal px-1">
-            <li><RouterLink to="/">Home</RouterLink></li>
+            <li><NuxtLink to="/">Home</NuxtLink></li>
             <li>
-              <RouterLink to="/mythic-profile">Mythic Profile</RouterLink>
+              <NuxtLink to="/mythic-profile">Mythic Profile</NuxtLink>
             </li>
             <li>
-              <RouterLink to="/fetch-anything">Fetch Anything</RouterLink>
+              <NuxtLink to="/fetch-anything">Fetch Anything</NuxtLink>
             </li>
           </ul>
         </div>
@@ -53,6 +49,6 @@ import { RouterLink, RouterView } from 'vue-router';
       </div>
     </header>
 
-    <RouterView />
+    <NuxtPage />
   </div>
 </template>

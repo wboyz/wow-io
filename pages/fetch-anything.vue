@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-import FetchAnythingCode from '@/components/FetchAnythingCode.vue';
-import FetchAnythingForm from '@/components/FetchAnythingForm.vue';
-import { ref } from 'vue';
-
 const response = ref<string>('');
 
 const fetched = (res: string) => {

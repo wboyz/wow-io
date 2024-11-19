@@ -1,18 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import LoadingSpinner from '@/components/LoadingSpinner.vue';
-import MythicProfileForm from '@/components/MythicKeystoneProfileForm.vue';
-import MythicProfileList from '@/components/MythicKeystoneProfileList.vue';
-import { useBattleNetStore } from '@/stores/battlenet';
 import type { Run } from '@/types/MythicKeystoneProfileSeason/Run';
-import { storeToRefs } from 'pinia';
-import ProfileCard from '@/components/ProfileCard.vue';
-import MythicKeystoneAlert from '@/components/MythicKeystoneAlert.vue';
 
 const battleNetStore = useBattleNetStore();
 const { loading, error } = storeToRefs(battleNetStore);
-const runs = ref<Run[]>([]);
 
+const runs = ref<Run[]>([]);
 const realm = ref('');
 const character = ref('');
 
@@ -28,7 +20,7 @@ async function search(r: string, c: string) {
 <template>
   <main class="lg:container mx-auto px-6 mt-6 flex flex-1 flex-col w-full">
     <div class="flex flex-row-reverse justify-between">
-      <MythicProfileForm @submit="search" />
+      <MythicKeystoneProfileForm @submit="search" />
 
       <ProfileCard
         v-if="realm && character"
@@ -41,6 +33,6 @@ async function search(r: string, c: string) {
 
     <MythicKeystoneAlert class="mt-6" :error="error" v-if="!loading" />
 
-    <MythicProfileList :runs="runs" v-if="!loading && !error" />
+    <MythicKeystoneProfileList :runs="runs" v-if="!loading && !error" />
   </main>
 </template>

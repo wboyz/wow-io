@@ -1,18 +1,17 @@
-import type { BattleNetClient } from '@/services/BattleNetClient';
 import { defineStore } from 'pinia';
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 
 export const useBattleNetStore = defineStore('battlenet', () => {
   const loading = ref(false);
   const error = ref<string | null>(null);
-  const battleNetClient = inject('battleNetClient') as BattleNetClient;
+  const { $battleNetClient } = useNuxtApp();
 
   async function mythicKeystoneProfileSeason(realm: string, character: string) {
     loading.value = true;
     error.value = null;
 
     try {
-      const response = await battleNetClient.fetchMythicKeystoneProfileSeason(
+      const response = await $battleNetClient.fetchMythicKeystoneProfileSeason(
         realm,
         character,
       );

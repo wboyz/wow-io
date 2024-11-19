@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import type { BattleNetClient } from '@/services/BattleNetClient';
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 
-const http: BattleNetClient = inject('battleNetClient')!;
+const { $battleNetClient } = useNuxtApp();
 const url = ref('');
 const namespace = ref('profile-eu');
 
@@ -10,7 +9,10 @@ const emit = defineEmits<(e: 'fetched', response: string) => void>();
 
 const submit = async () => {
   const trimmedUrl = url.value.replace(/^\/|\/$/g, '');
-  const response = await http.fetchAnything(trimmedUrl, namespace.value);
+  const response = await $battleNetClient.fetchAnything(
+    trimmedUrl,
+    namespace.value,
+  );
   emit('fetched', JSON.stringify(response, null, 2));
 };
 </script>
