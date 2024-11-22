@@ -67,7 +67,7 @@ const styleFactionColor = computed(() => {
 });
 </script>
 <template>
-  <div class="flex flex-row w-[300px]" :style="boxShadow" v-if="profile">
+  <div class="flex flex-row" :style="boxShadow" v-if="profile">
     <div>
       <img :src="profile.avatar" :alt="profile.name" :style="boxShadow" />
     </div>
