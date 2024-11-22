@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+definePageMeta({
+  layout: 'authenticated',
+});
 const response = ref<string>('');
 
 const fetched = (res: string) => {

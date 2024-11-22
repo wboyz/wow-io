@@ -1,8 +1,15 @@
+<script setup lang="ts">
+definePageMeta({
+  layout: 'authenticated',
+});
+const { user } = useUserSession();
+</script>
+
 <template>
-  <div class="hero bg-base-200 mt-6">
+  <div class="hero mt-16">
     <div class="hero-content text-center">
       <div class="max-w-2xl">
-        <h1 class="text-5xl font-bold">About</h1>
+        <h1 class="text-5xl font-bold">Welcome {{ user?.login }}</h1>
         <p class="py-10 text-lg/loose">
           Introducing our Mythic Plus Score Tracker for World of Warcraft, a
           convenient and powerful tool to help you quickly check the performance

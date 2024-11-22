@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { Run } from '@/types/MythicKeystoneProfileSeason/Run';
 
+definePageMeta({
+  layout: 'authenticated',
+});
+
 const battleNetStore = useBattleNetStore();
 const { loading, error } = storeToRefs(battleNetStore);
 
