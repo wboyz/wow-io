@@ -2,8 +2,6 @@ export default defineEventHandler(async event => {
   const config = useRuntimeConfig();
   const body = await readBody(event);
 
-  console.log('Login attempt', body);
-
   if (
     config.adminUser === body.email &&
     config.adminPassword === body.password
@@ -23,4 +21,9 @@ export default defineEventHandler(async event => {
 
     await sendRedirect(event, '/', 302);
   }
+
+  throw createError({
+    statusCode: 401,
+    statusMessage: 'Login failed. Please check your credentials and try again.',
+  });
 });
