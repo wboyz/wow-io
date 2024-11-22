@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const { user } = useUserSession();
+</script>
+
 <template>
   <header>
     <div class="navbar bg-base-100">
@@ -44,7 +48,18 @@
           </li>
         </ul>
       </div>
-      <div class="navbar-end"></div>
+      <div class="navbar-end">
+        <ul class="menu menu-horizontal px-1">
+          <li>
+            <details>
+              <summary>{{ user?.login }}</summary>
+              <ul class="bg-base-100 rounded-t-none p-2 right-0">
+                <li><a>Logout</a></li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+      </div>
     </div>
   </header>
   <slot />
