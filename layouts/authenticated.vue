@@ -30,21 +30,15 @@ const { user } = useUserSession();
             <li>
               <NuxtLink to="/mythic-profile">Mythic Profile</NuxtLink>
             </li>
-            <li>
-              <NuxtLink to="/fetch-anything">Fetch Anything</NuxtLink>
-            </li>
           </ul>
         </div>
-        <a class="btn btn-ghost text-xl">WoW IO</a>
+        <a class="btn btn-ghost text-xl">WoW Score</a>
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
           <li><NuxtLink to="/">Home</NuxtLink></li>
           <li>
             <NuxtLink to="/mythic-profile">Mythic Profile</NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="/fetch-anything">Fetch Anything</NuxtLink>
           </li>
         </ul>
       </div>
