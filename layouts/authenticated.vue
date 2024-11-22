@@ -54,7 +54,11 @@ const { user } = useUserSession();
             <details>
               <summary>{{ user?.login }}</summary>
               <ul class="bg-base-100 rounded-t-none p-2 right-0">
-                <li><a>Logout</a></li>
+                <li>
+                  <form method="post" action="/api/auth/logout">
+                    <button type="submit">Logout</button>
+                  </form>
+                </li>
               </ul>
             </details>
           </li>
